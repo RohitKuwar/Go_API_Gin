@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"github.com/RohitKuwar/go_api_gin/models"
@@ -199,8 +198,6 @@ func UpdateGoal(c *gin.Context)  {
 	c.IndentedJSON(http.StatusOK, gin.H{
 		"message": "data updated successfully",
 	})
-
-	// return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Record not found"})
 }
 
 func DeleteGoal(c *gin.Context) {
