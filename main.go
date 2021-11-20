@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+
 	"github.com/RohitKuwar/go_api_gin/config"
 	"github.com/RohitKuwar/go_api_gin/routes"
 	"github.com/joho/godotenv"
@@ -22,7 +23,7 @@ func main() {
 		log.Fatal("cannot load config:", err)
 	}
 
-	fmt.Println("Server is successfully runnig on port:", config.ServerPort)
+	fmt.Println("Server is successfully runnig on port:", config.Port)
 	r := routes.SetupRouter()
-	r.Run(":" + config.ServerPort)
+	r.Run(":" + config.Port)
 }
