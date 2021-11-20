@@ -11,9 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
-)
+	"github.com/RohitKuwar/go_api_gin/config"
 
-var firestoreCredentialsLocation = "A:/Go/go_fiber/serviceAccountKey.json"
+)
+var Config, _ = config.LoadConfig(".")
+
+var firestoreCredentialsLocation = Config.FirestoreCred
 
 func GetGoals(c *gin.Context) {
 
