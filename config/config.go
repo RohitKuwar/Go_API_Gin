@@ -7,7 +7,8 @@ import (
 // Config stores all configuration of the application.
 // The values are read by viper from a config file or environment variable.
 type Config struct {
-	Port string `mapstructure:"PORT"`
+	Port          string `mapstructure:"PORT"`
+	FirestoreCred string `mapstructure:"FIRESTORE_CRED"`
 }
 
 // LoadConfig reads configuration from file or environment variables.
