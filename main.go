@@ -20,11 +20,11 @@ func init() {
 func main() {
 	config, err := config.LoadConfig(".")
 	if err != nil {
-		log.Fatal("cannot load config:", err)
+		log.Println("cannot load config:", err)
 	}
 
 	fmt.Println("Server is successfully runnig on port:", config.Port)
-	log.Printf("Server is successfully runnig on port:", config.Port)
+	log.Println("Server is successfully runnig on port:", config.Port)
 	r := routes.SetupRouter()
 	r.Run(":" + config.Port)
 }
