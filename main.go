@@ -24,6 +24,7 @@ func main() {
 	}
 
 	fmt.Println("Server is successfully runnig on port:", config.Port)
+	log.Printf("Server is successfully runnig on port:", config.Port)
 	r := routes.SetupRouter()
 	r.Run(":" + config.Port)
 }

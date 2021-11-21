@@ -9,8 +9,10 @@ import (
 type Config struct {
 	Port          string `mapstructure:"PORT"`
 	FirestoreCred string `mapstructure:"FIRESTORE_CRED"`
+	PrivateKey    string `mapstructure:"PRIVATE_KEY"`
+	ProjectId     string `mapstructure:"PROJECT_ID"`
+	ClientId      string `mapstructure:"CLIENT_ID"`
 }
-
 // LoadConfig reads configuration from file or environment variables.
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)

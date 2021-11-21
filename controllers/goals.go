@@ -15,10 +15,10 @@ import (
 
 )
 var Config, _ = config.LoadConfig(".")
-
 var firestoreCredentialsLocation = Config.FirestoreCred
 
 func GetGoals(c *gin.Context) {
+	fmt.Println("ProjectId:", Config.ProjectId)
 
 	// Use a service account
 	ctx := context.Background()
