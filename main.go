@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-
-	"github.com/RohitKuwar/go_api_gin/config"
+	"os"
+	// "github.com/RohitKuwar/go_api_gin/config"
 	"github.com/RohitKuwar/go_api_gin/routes"
 	"github.com/joho/godotenv"
 )
@@ -18,13 +18,14 @@ func init() {
 }
 
 func main() {
-	config, err := config.LoadConfig(".")
-	if err != nil {
-		log.Println("cannot load config:", err)
-	}
-
-	fmt.Println("Server is successfully runnig on port:", config.Port)
-	log.Println("Server is successfully runnig on port log:", config.Port)
+	// config, err := config.LoadConfig(".")
+	// if err != nil {
+	// 	log.Println("cannot load config:", err)
+	// }
+	
+	port := os.Getenv("PORT")
+	fmt.Println("Server is successfully runnig on port:", port)
+	log.Println("Server is successfully runnig on port log:", port)
 	r := routes.SetupRouter()
-	r.Run(":" + config.Port)
+	r.Run(":" + port)
 }
