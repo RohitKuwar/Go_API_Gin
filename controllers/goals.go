@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"github.com/RohitKuwar/go_api_gin/models"
@@ -13,7 +14,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-var firestoreCredentialsLocation = "A:/Go/go_fiber/serviceAccountKey.json"
+var firestoreCredentialsLocation = "A:/Go/API_Gin/google-credentials.json"
 
 func GetGoals(c *gin.Context) {
 
@@ -153,7 +154,7 @@ func CreateGoal(c *gin.Context) {
 	})
 }
 
-func UpdateGoal(c *gin.Context)  {
+func UpdateGoal(c *gin.Context) {
 	type request struct {
 		Title  string `json:"title"`
 		Status string `json:"status"`

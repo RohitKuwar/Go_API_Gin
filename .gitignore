@@ -10,3 +10,4 @@ vendor/
 .env
 
 serviceAccountKey.json
+google-credentials.json
