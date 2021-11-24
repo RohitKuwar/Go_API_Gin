@@ -8,5 +8,6 @@ vendor/
 
 # Env files
 .env
+.json
 google-credentials.json
 serviceAccountKey.json
