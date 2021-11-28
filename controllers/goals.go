@@ -5,15 +5,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
+	"github.com/RohitKuwar/go_api_gin/config"
 	"github.com/RohitKuwar/go_api_gin/models"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
-	"github.com/RohitKuwar/go_api_gin/config"
-
 )
+
 var Config, _ = config.LoadConfig(".")
 var firestoreCredentialsLocation = Config.FirestoreCred
 
@@ -84,17 +85,21 @@ func GetGoal(c *gin.Context) {
 		c.IndentedJSON(http.StatusNotFound, gin.H{
 			"message": "Goal not found",
 		})
+		return
 	}
 	m := dsnap.Data()
-	fmt.Printf("Document data: %#v\n", m)
+	// fmt.Printf("Document data: %#v\n", m)
 
-	if m == nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{
-			"message": "Goal not found",
-		})
-	}
+	// if m == nil {
+	// 	c.IndentedJSON(http.StatusNotFound, gin.H{
+	// 		"message": "doc does not exist",
+	// 	})
+	// }
 
-	c.IndentedJSON(http.StatusNotFound, gin.H(m))
+	c.IndentedJSON(http.StatusNotFound, gin.H{
+		"Goal":    m,
+		"message": "Goal with id " + paramID + " returned successfully!",
+	})
 
 }
 
@@ -156,7 +161,7 @@ func CreateGoal(c *gin.Context) {
 	})
 }
 
-func UpdateGoal(c *gin.Context)  {
+func UpdateGoal(c *gin.Context) {
 	type request struct {
 		Title  string `json:"title"`
 		Status string `json:"status"`
