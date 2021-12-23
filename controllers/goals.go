@@ -105,9 +105,13 @@ func GetGoal(c *gin.Context) {
 
 func CreateGoal(c *gin.Context) {
 	type Request struct {
-		Id     string `json:"id"`
-		Title  string `json:"title"`
-		Status string `json:"status"`
+		Id              string `json:"id"`
+		Title           string `json:"title"`
+		Status          string `json:"status"`
+		AssignedTo      string `json:"assignedTo"`
+		AssignedBy      string `json:"assignedBy"`
+		AssignedOn      string `json:"assignedOn"`
+		CompletionAward string `json:"completionAward"`
 	}
 
 	var body Request
@@ -124,8 +128,12 @@ func CreateGoal(c *gin.Context) {
 
 	// create a goal variable
 	goal := &models.Goal{
-		Title:  body.Title,
-		Status: body.Status,
+		Title:           body.Title,
+		Status:          body.Status,
+		AssignedTo:      body.AssignedTo,
+		AssignedBy:      body.AssignedBy,
+		AssignedOn:      body.AssignedOn,
+		CompletionAward: body.CompletionAward,
 	}
 
 	// Use a service account
@@ -147,9 +155,13 @@ func CreateGoal(c *gin.Context) {
 	goal.Id = ref.ID
 
 	_, err = ref.Set(ctx, map[string]interface{}{
-		"id":     goal.Id,
-		"title":  goal.Title,
-		"status": goal.Status,
+		"id":              goal.Id,
+		"title":           goal.Title,
+		"status":          goal.Status,
+		"assignedTo":      goal.AssignedTo,
+		"assignedBy":      goal.AssignedBy,
+		"assignedOn":      goal.AssignedOn,
+		"completionAward": goal.CompletionAward,
 	})
 	if err != nil {
 		log.Fatalf("Failed adding alovelace: %v", err)
@@ -163,8 +175,10 @@ func CreateGoal(c *gin.Context) {
 
 func UpdateGoal(c *gin.Context) {
 	type request struct {
-		Title  string `json:"title"`
-		Status string `json:"status"`
+		Title           string `json:"title"`
+		Status          string `json:"status"`
+		AssignedOn      string `json:"assignedOn"`
+		CompletionAward string `json:"completionAward"`
 	}
 	var body request
 
@@ -194,8 +208,10 @@ func UpdateGoal(c *gin.Context) {
 	fmt.Print(paramID, body.Status, body.Title)
 
 	_, err = client.Collection("goals").Doc(paramID).Set(ctx, map[string]interface{}{
-		"title":  body.Title,
-		"status": body.Status,
+		"title":           body.Title,
+		"status":          body.Status,
+		"assignedOn":      body.AssignedOn,
+		"completionAward": body.CompletionAward,
 	}, firestore.MergeAll)
 
 	if err != nil {
