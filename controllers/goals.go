@@ -105,13 +105,13 @@ func GetGoal(c *gin.Context) {
 
 func CreateGoal(c *gin.Context) {
 	type Request struct {
-		Id              string `json:"id"`
-		Title           string `json:"title"`
-		Status          string `json:"status"`
-		AssignedTo      string `json:"assignedTo"`
-		AssignedBy      string `json:"assignedBy"`
-		AssignedOn      string `json:"assignedOn"`
-		CompletionAward string `json:"completionAward"`
+		Id              string   `json:"id"`
+		Title           string   `json:"title"`
+		Status          string   `json:"status"`
+		AssignedTo      []string `json:"assignedTo"`
+		AssignedBy      string   `json:"assignedBy"`
+		AssignedOn      string   `json:"assignedOn"`
+		CompletionAward string   `json:"completionAward"`
 	}
 
 	var body Request
@@ -175,10 +175,11 @@ func CreateGoal(c *gin.Context) {
 
 func UpdateGoal(c *gin.Context) {
 	type request struct {
-		Title           string `json:"title"`
-		Status          string `json:"status"`
-		AssignedOn      string `json:"assignedOn"`
-		CompletionAward string `json:"completionAward"`
+		Title           string   `json:"title"`
+		Status          string   `json:"status"`
+		AssignedTo      []string `json:"assignedTo"`
+		AssignedOn      string   `json:"assignedOn"`
+		CompletionAward string   `json:"completionAward"`
 	}
 	var body request
 
@@ -210,6 +211,7 @@ func UpdateGoal(c *gin.Context) {
 	_, err = client.Collection("goals").Doc(paramID).Set(ctx, map[string]interface{}{
 		"title":           body.Title,
 		"status":          body.Status,
+		"assignedTo":      body.AssignedTo,
 		"assignedOn":      body.AssignedOn,
 		"completionAward": body.CompletionAward,
 	}, firestore.MergeAll)
