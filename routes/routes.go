@@ -19,6 +19,7 @@ func SetupRouter() *gin.Engine {
 		}))
 		grp.GET("/goals", controllers.GetGoals)
 		grp.GET("/goals/:id", controllers.GetGoal)
+		grp.GET("/goals/username/:username", controllers.GetGoalByUsername)
 		grp.POST("/goals", controllers.CreateGoal)
 		grp.PATCH("/goals/:id", controllers.UpdateGoal)
 		grp.DELETE("/goals/:id", controllers.DeleteGoal)
