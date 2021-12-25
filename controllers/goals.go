@@ -63,7 +63,7 @@ func GetGoals(c *gin.Context) {
 
 func GetGoal(c *gin.Context) {
 	// get parameter value
-	paramID := c.Params.ByName("id")
+	paramID := c.Param("id")
 
 	// Use a service account
 	ctx := context.Background()
@@ -83,7 +83,7 @@ func GetGoal(c *gin.Context) {
 	if err != nil {
 		fmt.Print(err)
 		c.IndentedJSON(http.StatusNotFound, gin.H{
-			"message": "Goal not found",
+			"message": "Goal with id " + paramID + " not found",
 		})
 		return
 	}
@@ -101,6 +101,59 @@ func GetGoal(c *gin.Context) {
 		"message": "Goal with id " + paramID + " returned successfully!",
 	})
 
+}
+
+func GetGoalByUsername(c *gin.Context) {
+	paramID := c.Param("username")
+
+	// Use a service account
+	ctx := context.Background()
+	sa := option.WithCredentialsFile(firestoreCredentialsLocation)
+	app, err := firebase.NewApp(ctx, nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	var newGoals []models.Goal
+	iter := client.Collection("goals").Documents(ctx)
+
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to iterate: %v", err)
+		}
+
+		fmt.Print(doc.Data())
+
+		var tempGoals models.Goal
+		if err := doc.DataTo(&tempGoals); err != nil {
+			break
+		}
+		newGoals = append(newGoals, tempGoals)
+	}
+	var goalList []models.Goal
+	for _, a := range newGoals {
+		for _, element := range a.AssignedTo {
+			if element == paramID {
+				goalList = append(goalList, a)
+			}
+		}
+	}
+	if len(goalList) == 0 {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "goals not found"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, goalList)
 }
 
 func CreateGoal(c *gin.Context) {
